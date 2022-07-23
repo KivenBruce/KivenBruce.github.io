@@ -5,7 +5,7 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://yoursite.com">
+  <link rel="dns-prefetch" href="http://hzxstudio.com">
   <title>心血来潮讲讲负载均衡 | 黄站祥的博客</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,7 +13,7 @@
   <meta name="description" content="日常开发中,我们为保证服务高可用,一般是使用集群方式部署我们的服务,为了保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优,我们需要负载均衡作为调度; 下面介绍几种常见的负载均衡方式;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="心血来潮讲讲负载均衡">
-<meta property="og:url" content="http://yoursite.com/2018/11/14/LoadBalance/index.html">
+<meta property="og:url" content="http://hzxstudio.com/2018/11/14/LoadBalance/index.html">
 <meta property="og:site_name" content="黄站祥的博客">
 <meta property="og:description" content="日常开发中,我们为保证服务高可用,一般是使用集群方式部署我们的服务,为了保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优,我们需要负载均衡作为调度; 下面介绍几种常见的负载均衡方式;">
 <meta property="og:locale">
@@ -313,7 +313,7 @@
         </li>
         <li>
           <strong>本文链接：</strong>
-          <a href="http://yoursite.com/2018/11/14/LoadBalance/" title="心血来潮讲讲负载均衡" target="_blank">http://yoursite.com/2018/11/14/LoadBalance/</a>
+          <a href="http://hzxstudio.com/2018/11/14/LoadBalance/" title="心血来潮讲讲负载均衡" target="_blank">http://hzxstudio.com/2018/11/14/LoadBalance/</a>
         </li>
         
         <li>
@@ -391,7 +391,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/14/LoadBalance/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://hzxstudio.com/2018/11/14/LoadBalance/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -449,33 +449,34 @@
 
 
 
-  <div id="giteement-ctn"></div>
+
+
+
+
+    <section id="comments" class="comments" style="margin:10px;padding:10px;background:#fff;">
+      
+<div id="vcomment" class="comment"></div> 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "nkQmbGKSttjVRtsl3sJPVKyy-gzGzoHsz",
+            app_key: "pG7zHswdT11bs9jdDmqKLPg1",
+            placeholder: "Just go go",
+            avatar:"monsterid"
+        });
+    }
+</script>
+
+
+    </section>
   
-    <link rel="stylesheet" href="/lib/default.css">
-    <script src="/lib/giteement.browser.js"></script>
-  
-  <script>
-  <!-- id: "心血来潮讲讲负载均衡" -->
-  var giteement = new Giteement({
-    id: '20181114164052',
-    owner: 'kivenbruce',
-    repo: 'hzxstudio',
-    backcall_uri: 'http://www.hzxstudio.com',
-    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
-    oauth: {
-      client_id: '09bbab9e8dcea6024bcd896c246327b79ddc2effe1deafab32022c179b1365a7',
-      client_secret: '5ddffdd80c026b70da12f90ba3e46c632e602dc2f300334f744b1ce04c34db64'
-    },
-  })
-  giteement.render('giteement-ctn')
-  </script>
-
-
-
-
-
-
-
 
           </div>
         </div>
@@ -484,7 +485,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2022 <a href="http://yoursite.com/" target="_blank">Kiven</a>
+    		&copy; 2018-2022 <a href="http://hzxstudio.com/" target="_blank">Kiven</a>
     	</div>
       	<div class="footer-right">
 			
@@ -539,10 +540,10 @@
   var titleTime;
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
-      document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+      document.title = "" + originTitle;
       clearTimeout(titleTime);
     } else {
-      document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+      document.title = "" + originTitle;
       titleTime = setTimeout(function () {
         document.title = originTitle;
       }, 2000);

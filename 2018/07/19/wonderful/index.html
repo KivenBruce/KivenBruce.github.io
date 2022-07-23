@@ -5,7 +5,7 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://yoursite.com">
+  <link rel="dns-prefetch" href="http://hzxstudio.com">
   <title>Java基础系列(二)-Java代理 | 黄站祥的博客</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,7 +13,7 @@
   <meta name="description" content="一,Java代理-静态代理 什么是代理?举个例子,最形象的代表便是经纪人，明星一般都有经纪人，经纪人作为中间人，负责代理明星的相关事宜;经纪人就是代理; 1234567891011121314public interface IStarts&amp;#123;void sing();void dance();&amp;#125;public class Start implements IStart&amp;#123;p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java基础系列(二)-Java代理">
-<meta property="og:url" content="http://yoursite.com/2018/07/19/wonderful/index.html">
+<meta property="og:url" content="http://hzxstudio.com/2018/07/19/wonderful/index.html">
 <meta property="og:site_name" content="黄站祥的博客">
 <meta property="og:description" content="一,Java代理-静态代理 什么是代理?举个例子,最形象的代表便是经纪人，明星一般都有经纪人，经纪人作为中间人，负责代理明星的相关事宜;经纪人就是代理; 1234567891011121314public interface IStarts&amp;#123;void sing();void dance();&amp;#125;public class Start implements IStart&amp;#123;p">
 <meta property="og:locale">
@@ -297,7 +297,7 @@
         </li>
         <li>
           <strong>本文链接：</strong>
-          <a href="http://yoursite.com/2018/07/19/wonderful/" title="Java基础系列(二)-Java代理" target="_blank">http://yoursite.com/2018/07/19/wonderful/</a>
+          <a href="http://hzxstudio.com/2018/07/19/wonderful/" title="Java基础系列(二)-Java代理" target="_blank">http://hzxstudio.com/2018/07/19/wonderful/</a>
         </li>
         
         <li>
@@ -375,7 +375,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/19/wonderful/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://hzxstudio.com/2018/07/19/wonderful/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -433,33 +433,34 @@
 
 
 
-  <div id="giteement-ctn"></div>
+
+
+
+
+    <section id="comments" class="comments" style="margin:10px;padding:10px;background:#fff;">
+      
+<div id="vcomment" class="comment"></div> 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "nkQmbGKSttjVRtsl3sJPVKyy-gzGzoHsz",
+            app_key: "pG7zHswdT11bs9jdDmqKLPg1",
+            placeholder: "Just go go",
+            avatar:"monsterid"
+        });
+    }
+</script>
+
+
+    </section>
   
-    <link rel="stylesheet" href="/lib/default.css">
-    <script src="/lib/giteement.browser.js"></script>
-  
-  <script>
-  <!-- id: "Java基础系列(二)-Java代理" -->
-  var giteement = new Giteement({
-    id: '20180719191324',
-    owner: 'kivenbruce',
-    repo: 'hzxstudio',
-    backcall_uri: 'http://www.hzxstudio.com',
-    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
-    oauth: {
-      client_id: '09bbab9e8dcea6024bcd896c246327b79ddc2effe1deafab32022c179b1365a7',
-      client_secret: '5ddffdd80c026b70da12f90ba3e46c632e602dc2f300334f744b1ce04c34db64'
-    },
-  })
-  giteement.render('giteement-ctn')
-  </script>
-
-
-
-
-
-
-
 
           </div>
         </div>
@@ -468,7 +469,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2022 <a href="http://yoursite.com/" target="_blank">Kiven</a>
+    		&copy; 2018-2022 <a href="http://hzxstudio.com/" target="_blank">Kiven</a>
     	</div>
       	<div class="footer-right">
 			
@@ -523,10 +524,10 @@
   var titleTime;
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
-      document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+      document.title = "" + originTitle;
       clearTimeout(titleTime);
     } else {
-      document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+      document.title = "" + originTitle;
       titleTime = setTimeout(function () {
         document.title = originTitle;
       }, 2000);

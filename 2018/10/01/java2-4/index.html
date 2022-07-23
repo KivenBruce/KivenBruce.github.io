@@ -5,7 +5,7 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://yoursite.com">
+  <link rel="dns-prefetch" href="http://hzxstudio.com">
   <title>Java进阶系列(五)-Java GC | 黄站祥的博客</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,17 +13,17 @@
   <meta name="description" content="java GC泛指java的垃圾回收机制，我们在日常写java代码的时候，一般都不需要编写内存回收或者垃圾清理的代码，也不需要像C&#x2F;C++那样做类似delete&#x2F;free的操作。JVM已经自动帮我们完成GC;但是写代码难免会遇到一些特殊情况，比如OOM,所以需要我们了解JVM是如何完成GC的; 接下来,我们需要了解如下问题:哪些内存要回收,什么时候回收,怎么回收.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java进阶系列(五)-Java GC">
-<meta property="og:url" content="http://yoursite.com/2018/10/01/java2-4/index.html">
+<meta property="og:url" content="http://hzxstudio.com/2018/10/01/java2-4/index.html">
 <meta property="og:site_name" content="黄站祥的博客">
 <meta property="og:description" content="java GC泛指java的垃圾回收机制，我们在日常写java代码的时候，一般都不需要编写内存回收或者垃圾清理的代码，也不需要像C&#x2F;C++那样做类似delete&#x2F;free的操作。JVM已经自动帮我们完成GC;但是写代码难免会遇到一些特殊情况，比如OOM,所以需要我们了解JVM是如何完成GC的; 接下来,我们需要了解如下问题:哪些内存要回收,什么时候回收,怎么回收.">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/2018/10/01/java2-4/java2-4%5CmonitorGC.png">
+<meta property="og:image" content="http://hzxstudio.com/2018/10/01/java2-4/java2-4%5CmonitorGC.png">
 <meta property="article:published_time" content="2018-10-01T08:00:16.000Z">
 <meta property="article:modified_time" content="2022-07-23T16:56:37.568Z">
 <meta property="article:author" content="Kiven">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2018/10/01/java2-4/java2-4%5CmonitorGC.png">
+<meta name="twitter:image" content="http://hzxstudio.com/2018/10/01/java2-4/java2-4%5CmonitorGC.png">
   
     <link rel="alternative" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
   
@@ -292,7 +292,7 @@
         </li>
         <li>
           <strong>本文链接：</strong>
-          <a href="http://yoursite.com/2018/10/01/java2-4/" title="Java进阶系列(五)-Java GC" target="_blank">http://yoursite.com/2018/10/01/java2-4/</a>
+          <a href="http://hzxstudio.com/2018/10/01/java2-4/" title="Java进阶系列(五)-Java GC" target="_blank">http://hzxstudio.com/2018/10/01/java2-4/</a>
         </li>
         
         <li>
@@ -370,7 +370,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/10/01/java2-4/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://hzxstudio.com/2018/10/01/java2-4/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -428,33 +428,34 @@
 
 
 
-  <div id="giteement-ctn"></div>
+
+
+
+
+    <section id="comments" class="comments" style="margin:10px;padding:10px;background:#fff;">
+      
+<div id="vcomment" class="comment"></div> 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "nkQmbGKSttjVRtsl3sJPVKyy-gzGzoHsz",
+            app_key: "pG7zHswdT11bs9jdDmqKLPg1",
+            placeholder: "Just go go",
+            avatar:"monsterid"
+        });
+    }
+</script>
+
+
+    </section>
   
-    <link rel="stylesheet" href="/lib/default.css">
-    <script src="/lib/giteement.browser.js"></script>
-  
-  <script>
-  <!-- id: "Java进阶系列(五)-Java GC" -->
-  var giteement = new Giteement({
-    id: '20181001160016',
-    owner: 'kivenbruce',
-    repo: 'hzxstudio',
-    backcall_uri: 'http://www.hzxstudio.com',
-    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
-    oauth: {
-      client_id: '09bbab9e8dcea6024bcd896c246327b79ddc2effe1deafab32022c179b1365a7',
-      client_secret: '5ddffdd80c026b70da12f90ba3e46c632e602dc2f300334f744b1ce04c34db64'
-    },
-  })
-  giteement.render('giteement-ctn')
-  </script>
-
-
-
-
-
-
-
 
           </div>
         </div>
@@ -463,7 +464,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2022 <a href="http://yoursite.com/" target="_blank">Kiven</a>
+    		&copy; 2018-2022 <a href="http://hzxstudio.com/" target="_blank">Kiven</a>
     	</div>
       	<div class="footer-right">
 			
@@ -518,10 +519,10 @@
   var titleTime;
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
-      document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+      document.title = "" + originTitle;
       clearTimeout(titleTime);
     } else {
-      document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+      document.title = "" + originTitle;
       titleTime = setTimeout(function () {
         document.title = originTitle;
       }, 2000);

@@ -5,7 +5,7 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://yoursite.com">
+  <link rel="dns-prefetch" href="http://hzxstudio.com">
   <title>Java进阶系列(二)-多线程编程初探 | 黄站祥的博客</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,17 +13,17 @@
   <meta name="description" content="了解多线程编程之前,首先回忆日常开发各个场景中是否运用到了多线程编程,为何要用,以及如何解决线程安全问题! 然后,谈谈 cpu个数、核数、线程数、Java多线程关系;最后看看几个简单的线程安全样例">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java进阶系列(二)-多线程编程初探">
-<meta property="og:url" content="http://yoursite.com/2018/09/01/java2-1/index.html">
+<meta property="og:url" content="http://hzxstudio.com/2018/09/01/java2-1/index.html">
 <meta property="og:site_name" content="黄站祥的博客">
 <meta property="og:description" content="了解多线程编程之前,首先回忆日常开发各个场景中是否运用到了多线程编程,为何要用,以及如何解决线程安全问题! 然后,谈谈 cpu个数、核数、线程数、Java多线程关系;最后看看几个简单的线程安全样例">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/2018/09/01/java2-1/java2-1%5Cdeadlock.png">
+<meta property="og:image" content="http://hzxstudio.com/2018/09/01/java2-1/java2-1%5Cdeadlock.png">
 <meta property="article:published_time" content="2018-09-01T08:16:08.000Z">
 <meta property="article:modified_time" content="2022-07-23T16:56:37.564Z">
 <meta property="article:author" content="Kiven">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2018/09/01/java2-1/java2-1%5Cdeadlock.png">
+<meta name="twitter:image" content="http://hzxstudio.com/2018/09/01/java2-1/java2-1%5Cdeadlock.png">
   
     <link rel="alternative" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
   
@@ -317,7 +317,7 @@
         </li>
         <li>
           <strong>本文链接：</strong>
-          <a href="http://yoursite.com/2018/09/01/java2-1/" title="Java进阶系列(二)-多线程编程初探" target="_blank">http://yoursite.com/2018/09/01/java2-1/</a>
+          <a href="http://hzxstudio.com/2018/09/01/java2-1/" title="Java进阶系列(二)-多线程编程初探" target="_blank">http://hzxstudio.com/2018/09/01/java2-1/</a>
         </li>
         
         <li>
@@ -395,7 +395,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/01/java2-1/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://hzxstudio.com/2018/09/01/java2-1/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -453,33 +453,34 @@
 
 
 
-  <div id="giteement-ctn"></div>
+
+
+
+
+    <section id="comments" class="comments" style="margin:10px;padding:10px;background:#fff;">
+      
+<div id="vcomment" class="comment"></div> 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "nkQmbGKSttjVRtsl3sJPVKyy-gzGzoHsz",
+            app_key: "pG7zHswdT11bs9jdDmqKLPg1",
+            placeholder: "Just go go",
+            avatar:"monsterid"
+        });
+    }
+</script>
+
+
+    </section>
   
-    <link rel="stylesheet" href="/lib/default.css">
-    <script src="/lib/giteement.browser.js"></script>
-  
-  <script>
-  <!-- id: "Java进阶系列(二)-多线程编程初探" -->
-  var giteement = new Giteement({
-    id: '20180901161608',
-    owner: 'kivenbruce',
-    repo: 'hzxstudio',
-    backcall_uri: 'http://www.hzxstudio.com',
-    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
-    oauth: {
-      client_id: '09bbab9e8dcea6024bcd896c246327b79ddc2effe1deafab32022c179b1365a7',
-      client_secret: '5ddffdd80c026b70da12f90ba3e46c632e602dc2f300334f744b1ce04c34db64'
-    },
-  })
-  giteement.render('giteement-ctn')
-  </script>
-
-
-
-
-
-
-
 
           </div>
         </div>
@@ -488,7 +489,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2022 <a href="http://yoursite.com/" target="_blank">Kiven</a>
+    		&copy; 2018-2022 <a href="http://hzxstudio.com/" target="_blank">Kiven</a>
     	</div>
       	<div class="footer-right">
 			
@@ -543,10 +544,10 @@
   var titleTime;
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
-      document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+      document.title = "" + originTitle;
       clearTimeout(titleTime);
     } else {
-      document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+      document.title = "" + originTitle;
       titleTime = setTimeout(function () {
         document.title = originTitle;
       }, 2000);
