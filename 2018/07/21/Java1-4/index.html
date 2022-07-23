@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java基础系列(四) - Java泛型 | 黄站祥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="泛型是java中比较常见的特性,从以下几个方面来了解泛型: 1,什么是泛型 2,如何使用泛型 3,泛型的好处  1,什么是泛型泛型,指的是参数化类型,平时我们所面对的类型一般是某个具体的类型,如String,Integer,Double,void,而泛型则是把所操作的数据类型当做一个参数,如ArrayList(),通过传入不同的类型来指定容器中存储的类型,而不用为了不同类型创建不同的类,这种参数类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础系列(四) - Java泛型">
+<meta property="og:url" content="http://yoursite.com/2018/07/21/Java1-4/index.html">
+<meta property="og:site_name" content="黄站祥的博客">
+<meta property="og:description" content="泛型是java中比较常见的特性,从以下几个方面来了解泛型: 1,什么是泛型 2,如何使用泛型 3,泛型的好处  1,什么是泛型泛型,指的是参数化类型,平时我们所面对的类型一般是某个具体的类型,如String,Integer,Double,void,而泛型则是把所操作的数据类型当做一个参数,如ArrayList(),通过传入不同的类型来指定容器中存储的类型,而不用为了不同类型创建不同的类,这种参数类">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-07-21T12:43:04.000Z">
+<meta property="article:modified_time" content="2022-07-23T16:56:37.562Z">
+<meta property="article:author" content="Kiven">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">黄站祥的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java1-4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/21/Java1-4/" class="article-date">
+  <time datetime="2018-07-21T12:43:04.000Z" itemprop="datePublished">2018-07-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java基础系列(四) - Java泛型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>泛型是java中比较常见的特性,从以下几个方面来了解泛型:</p>
+<p>1,什么是泛型</p>
+<p>2,如何使用泛型</p>
+<p>3,泛型的好处</p>
+<hr>
+<h2 id="1-什么是泛型"><a href="#1-什么是泛型" class="headerlink" title="1,什么是泛型"></a><strong>1,什么是泛型</strong></h2><p>泛型,指的是参数化类型,平时我们所面对的类型一般是某个具体的类型,如String,Integer,Double,void,而泛型则是把所操作的数据类型当做一个参数,如ArrayList<String>(),通过传入不同的类型来指定容器中存储的类型,而不用为了不同类型创建不同的类,这种参数类型可以用在类,接口和方法的创建中,分别称为泛型类,泛型接口,泛型方法</p>
+<span id="more"></span>
+
+<h2 id="2-如何使用泛型"><a href="#2-如何使用泛型" class="headerlink" title="2,如何使用泛型"></a><strong>2,如何使用泛型</strong></h2><p>我们先看看泛型是什么样子的:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface List&lt;E&gt;&#123;</span><br><span class="line">    void add&lt;E&gt;;</span><br><span class="line">    Iterator&lt;E&gt; iterator();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是List接口,这里用E来代替具体的类型,这样就可以往里面传入任意类型;</p>
+<p>那么,直接使用Object不就好了吗?如下例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class ObjHolder&#123;</span><br><span class="line">    private Object a;</span><br><span class="line">    public ObjHolder(Object a)&#123;this.a = a&#125;</span><br><span class="line">    public void set(Object a)&#123;this.a = a&#125;</span><br><span class="line">    public Object get()&#123;return a;&#125;</span><br><span class="line">    public void main(String[] args)&#123;</span><br><span class="line">        ObjHolder hoder = new ObjHolder(&quot;jack&quot;);</span><br><span class="line">        System.out.println((String)holder.get());</span><br><span class="line">        holder.set(123);</span><br><span class="line">        System.out.println((Integer)holder.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由上,可以发现,虽然也实现类存储任意类型的对象,但是每次取出来的都需要进行类型转换,如果参数类型为ObjectHolder的话,无法知道它里面存放的对象的确切类型,这样反而带来很多不必要的麻烦;</p>
+<p>那么,如果使用泛型来实现呢?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class GeneriHolder&lt;T&gt;&#123;//类则放在类名后面</span><br><span class="line">    private T obj;//变量则放在前面</span><br><span class="line">    public GeneriHolder(T obj)&#123;this.obj = obj&#125;</span><br><span class="line">    public T getObj()&#123;return obj&#125;//方法则放在前面</span><br><span class="line">    public void setObj(T obj)&#123;this.obj = obj&#125;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        GeneriHolder&lt;String&gt;  holderA = new GenericHolder&lt;String&gt;(&quot;java&quot;);</span><br><span class="line">        System.out.println(holderA.getObj());</span><br><span class="line">        //holderA.setObj(123);//error ,just can put a value with type of string,not a integer</span><br><span class="line">        GeneriHolder&lt;Integer&gt; holderB = new GeneriHolder&lt;Integer&gt;(123);</span><br><span class="line">        System.out.println(holder.getObj());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样通过传入类型信息如String 和Integer,来代替其中的泛型差数T,这里的T你可以理解为一个占位符,用其他字母代替也是可以的;一旦传入的类型确定,如String,则所有使用T的地方都会用String类型替换;</p>
+<p>在泛型中可以对类型进行限制,如:&lt;T extends Comparable<T>&gt;表示只能传入已经实现类Comparable接口的类型对象,.注意,这里使用的是extends而不是implement,而且对于接口也只能写一个,<T extends Number>表示只能接收Number类或者其子类对象.与之相反的边界通配符是super,如<T super Phone>表示只能接收类型为Phone或者是其父类的对象;</p>
+<p>特别注意的是,使用extends和super在以下情形不使用:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? <span class="keyword">extends</span> <span class="title class_">Number</span>&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Number&gt;();</span><br><span class="line">list.add(<span class="number">1.0</span>);<span class="comment">//编译报错</span></span><br><span class="line">list.add(<span class="number">3</span>);<span class="comment">//编译报错 </span></span><br></pre></td></tr></table></figure>
+
+<p>因为泛型是为了类型安全设计的，如果往List&lt;? extends Number&gt; list 塞值的话，在取的时候就无法确认它到底是什么类型了，编译器只知道它是Number类型或者它的派生类型，但无法确定是哪个具体类型。通配符T表示其中存的都是同一种类型，因此使用extend下边界的话是无法进行存操作的(放的类型不兼容,取值会报错)。同理super下边界是不能取值的(放的类型虽然可能不同,但是都是父类向上类型转换,最终能到Object,所以取出来都认为是Object类型)。</p>
+<p>所以,经常要读,则使用&lt;? extends T&gt;,经常要写,则使用&lt;? super T&gt;</p>
+<h2 id="3-泛型的好处"><a href="#3-泛型的好处" class="headerlink" title="3.泛型的好处"></a><strong>3.泛型的好处</strong></h2><p>3.1,类型安全</p>
+<p>泛型的主要目标是提高Java程序的类型安全,通过使用泛型定义的变量的类型现在,避免了大量因为使用Object带来的不必要的类型错误.</p>
+<p>3.2,代码复用</p>
+<p>增加了代码的复用性,比如上面的GenericHolder类,就能存取任意类型的对象而不用为例每种类型写一个包装类</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/21/Java1-4/" data-id="cl5y5bqss0005fhudcivnbfvm" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/01/Java1-5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java基础系列(五) - Java容器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/20/Java1-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java基础系列(三)-Java反射</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigData/" rel="tag">bigData</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/bigData/" style="font-size: 10px;">bigData</a> <a href="/tags/database/" style="font-size: 15px;">database</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/note/" style="font-size: 15px;">note</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/24/dubbo/">Dubbo入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/LoadBalance/">心血来潮讲讲负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/oracleNote2/">Oracle笔记-记一次有意思的sql查询结果集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/java1-7/">Java基础系列(七)-Java正则表达式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/java2-4/">Java进阶系列(五)-Java GC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Kiven<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Oracle笔记-记一次有意思的sql查询结果集 | 黄站祥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="关键词: not in (),group by()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle笔记-记一次有意思的sql查询结果集">
+<meta property="og:url" content="http://yoursite.com/2018/11/01/oracleNote2/index.html">
+<meta property="og:site_name" content="黄站祥的博客">
+<meta property="og:description" content="关键词: not in (),group by()">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-11-01T03:46:40.000Z">
+<meta property="article:modified_time" content="2022-07-23T16:56:37.572Z">
+<meta property="article:author" content="Kiven">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="database">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">黄站祥的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-oracleNote2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/01/oracleNote2/" class="article-date">
+  <time datetime="2018-11-01T03:46:40.000Z" itemprop="datePublished">2018-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Oracle笔记-记一次有意思的sql查询结果集
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关键词: <strong>not in (</strong>),<strong>group by()</strong></p>
+<span id="more"></span>
+
+<h2 id="一-in-not-in-的使用"><a href="#一-in-not-in-的使用" class="headerlink" title="一,in(),not in()的使用"></a>一,in(),not in()的使用</h2><p>我需要在查询结果集中排除一些结果;sql类似如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> A <span class="keyword">where</span> A.id <span class="keyword">not</span> <span class="keyword">in</span>(</span><br><span class="line">    <span class="keyword">select</span> id <span class="keyword">from</span> <span class="keyword">table</span> B <span class="keyword">where</span> B.id<span class="operator">&gt;</span><span class="number">5</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>上面sql执行返回结果为空,直接查询select *  from table A,A.id为1,2,3,4,5</p>
+<p>select id from table B的结果集为6,7,8,8,7,6,9,10….</p>
+<p>为何最后没有返回呢?1,2,3,4,5符合not in(6,7,8,8,7,6,9,10)的啊.</p>
+<p>执行如下sql,看看table B的id有多少种:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span>(id) <span class="keyword">from</span> <span class="keyword">table</span> B <span class="keyword">where</span> B.id<span class="operator">&gt;</span><span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p>发现返回的结果集为:6,7,8,9,null,10</p>
+<p><strong>结果集中有null;</strong><br>首先说说Oracle中的null值:<br>null在oracle中代表未知，表示可能有，也可能没有。<strong>任何与null值的普通运算都为null</strong>，但可以用一些函数来处理null值，oracle排序中默认null最大。</p>
+<p>我们可以理解为:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> A <span class="keyword">where</span> A.id <span class="keyword">in</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="keyword">null</span>);</span><br><span class="line">等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> A <span class="keyword">where</span> A.id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">or</span> A.id <span class="operator">=</span> <span class="number">2</span> <span class="keyword">or</span> A.id <span class="operator">=</span> <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> A <span class="keyword">where</span> A.id <span class="keyword">not</span> <span class="keyword">in</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="keyword">null</span>);</span><br><span class="line">等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> A <span class="keyword">where</span> A.id<span class="operator">!=</span><span class="number">1</span> <span class="keyword">and</span> A.id<span class="operator">!=</span><span class="number">2</span> <span class="keyword">and</span> A.id<span class="operator">!=</span><span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+<p>因为A.id=null 或者 A.id!=null的结果都是false,所以自然是没有返回结果集的;<br><strong>所以,我们在判断值是否为null的时候,一定不能这样写,得写成这样:A.id is null,A.id is not null</strong></p>
+<p><strong>在使用not in查询的时候,必须注意结果集是否可能存在null值</strong>,我们需要加上条件and B.id is not null;</p>
+<h2 id="二-max-min-和group-by的使用"><a href="#二-max-min-和group-by的使用" class="headerlink" title="二,max()/min()和group by的使用"></a>二,max()/min()和group by的使用</h2><p>比如有一张student表，和一张score表,字段如下:</p>
+<p>student:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>3</td>
+<td>C</td>
+</tr>
+</tbody></table>
+<p>score:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>student_id</th>
+<th>chinesse</th>
+<th>english</th>
+<th>math</th>
+<th>title</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>80</td>
+<td>80</td>
+<td>90</td>
+<td>一模</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>80</td>
+<td>90</td>
+<td>90</td>
+<td>一模</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>70</td>
+<td>80</td>
+<td>85</td>
+<td>一模</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>85</td>
+<td>85</td>
+<td>80</td>
+<td>二模</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>90</td>
+<td>90</td>
+<td>90</td>
+<td>二模</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3</td>
+<td>80</td>
+<td>90</td>
+<td>70</td>
+<td>二模</td>
+</tr>
+</tbody></table>
+<p>如果要查询两次考试总分最高的同学那次的考试成绩:<br>原sql:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    s.name,t.title, t.math, t.chinese, t.english, <span class="built_in">max</span>(t.math<span class="operator">+</span>t.chinese<span class="operator">+</span>t.english) <span class="keyword">as</span> total</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    student s</span><br><span class="line">        <span class="keyword">LEFT</span> <span class="keyword">JOIN</span></span><br><span class="line">    score t <span class="keyword">ON</span> s.id <span class="operator">=</span> t.student_id</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> t.title</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>title</th>
+<th>math</th>
+<th>chinese</th>
+<th>english</th>
+<th>total</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>一模</td>
+<td>80</td>
+<td>80</td>
+<td>90</td>
+<td>260</td>
+</tr>
+<tr>
+<td>A</td>
+<td>二模</td>
+<td>85</td>
+<td>85</td>
+<td>80</td>
+<td>270</td>
+</tr>
+</tbody></table>
+<p><strong>从返回结果来看,只有total和title是对的,其他的都是按照t.title分组取的第一条数据;</strong></p>
+<p>max()和min()都只影响()中的这个字段，因此无论是查英语还是数学的最大值，它都是对的，但它不会影响整行数据,group by默认返回每一组的第一条数据（每一组的数据排序都是按默认顺序排序的）;</p>
+<p>那么既然group by默认返回每一组的第一条数据，我们是不是可以先排序再group by呢？</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> (</span><br><span class="line">    <span class="keyword">SELECT</span></span><br><span class="line"> s.name,t.title, t.math, t.chinese, t.english, (t.math<span class="operator">+</span>t.chinese<span class="operator">+</span>t.english) <span class="keyword">as</span> total</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line"> student s</span><br><span class="line"> <span class="keyword">LEFT</span> <span class="keyword">JOIN</span></span><br><span class="line"> score t <span class="keyword">ON</span> s.id <span class="operator">=</span> t.student_id</span><br><span class="line"> <span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span></span><br><span class="line">) r</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> r.title</span><br></pre></td></tr></table></figure>
+
+<p>这样是有对应关系的,<strong>但是我发现只有MySQL支持这样的写法,Oracle不支持这样的写法,Oracle会报:ORA-00979:not a GROUP BY expression;Oracle的分组只能是查询分组的那个字段以及count或者sum操作</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> r.name,r.title,r.math,r.chinese,r.englist, r.total <span class="keyword">from</span> (</span><br><span class="line">  <span class="keyword">select</span> s.name,t.title,t.math,t.chinese,t.englist,</span><br><span class="line">    (t.math<span class="operator">+</span>t.chinese<span class="operator">+</span>t.english) <span class="keyword">as</span> total,</span><br><span class="line">    <span class="built_in">row_number</span>() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> t.title <span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>)</span><br><span class="line">   <span class="keyword">FROM</span></span><br><span class="line"> student s</span><br><span class="line"> <span class="keyword">LEFT</span> <span class="keyword">JOIN</span></span><br><span class="line"> score t <span class="keyword">ON</span> s.id <span class="operator">=</span> t.student_id</span><br><span class="line">) r <span class="keyword">where</span> r.rn<span class="operator">=</span><span class="number">1</span> </span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/01/oracleNote2/" data-id="cl5y5bqt5000ufhud4oxhdmfx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/11/14/LoadBalance/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          心血来潮讲讲负载均衡
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/15/java1-7/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java基础系列(七)-Java正则表达式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigData/" rel="tag">bigData</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/bigData/" style="font-size: 10px;">bigData</a> <a href="/tags/database/" style="font-size: 15px;">database</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/note/" style="font-size: 15px;">note</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/24/dubbo/">Dubbo入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/LoadBalance/">心血来潮讲讲负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/oracleNote2/">Oracle笔记-记一次有意思的sql查询结果集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/java1-7/">Java基础系列(七)-Java正则表达式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/java2-4/">Java进阶系列(五)-Java GC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Kiven<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

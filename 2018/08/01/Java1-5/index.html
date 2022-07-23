@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java基础系列(五) - Java容器 | 黄站祥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="所谓容器,就是专门用来装对象的东西,当你有东西需要存放和管理的时候,就需要用到它,也行你会说,不是有数组吗?确实,使用数组存放相同类型对象是一个不错的选择,但是,他也有一个很大的缺陷,那就是数组的大小只能是固定的,不能错数组中动态的添加和删除一个对象,要扩容的时候,只能新建一个数组,然后把原来的对象全部复制到新的数组中,而且只能存放相同类型的对象,使用起来不太灵活.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础系列(五) - Java容器">
+<meta property="og:url" content="http://yoursite.com/2018/08/01/Java1-5/index.html">
+<meta property="og:site_name" content="黄站祥的博客">
+<meta property="og:description" content="所谓容器,就是专门用来装对象的东西,当你有东西需要存放和管理的时候,就需要用到它,也行你会说,不是有数组吗?确实,使用数组存放相同类型对象是一个不错的选择,但是,他也有一个很大的缺陷,那就是数组的大小只能是固定的,不能错数组中动态的添加和删除一个对象,要扩容的时候,只能新建一个数组,然后把原来的对象全部复制到新的数组中,而且只能存放相同类型的对象,使用起来不太灵活.">
+<meta property="og:locale">
+<meta property="og:image" content="https://img.mukewang.com/5b076e86000183ef12800659.jpg">
+<meta property="article:published_time" content="2018-08-01T14:14:17.000Z">
+<meta property="article:modified_time" content="2022-07-23T16:56:37.562Z">
+<meta property="article:author" content="Kiven">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.mukewang.com/5b076e86000183ef12800659.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">黄站祥的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java1-5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/01/Java1-5/" class="article-date">
+  <time datetime="2018-08-01T14:14:17.000Z" itemprop="datePublished">2018-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java基础系列(五) - Java容器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>所谓容器,就是专门用来装对象的东西,当你有东西需要存放和管理的时候,就需要用到它,也行你会说,不是有数组吗?确实,使用数组存放相同类型对象是一个不错的选择,但是,他也有一个很大的缺陷,那就是数组的大小只能是固定的,不能错数组中动态的添加和删除一个对象,要扩容的时候,只能新建一个数组,然后把原来的对象全部复制到新的数组中,而且只能存放相同类型的对象,使用起来不太灵活.</p>
+<span id="more"></span>
+
+<h2 id="一-集合Collection接口"><a href="#一-集合Collection接口" class="headerlink" title="一,集合Collection接口"></a><strong>一,集合Collection接口</strong></h2><p>java集合框架支持以下两种数据类型的集合,一种是存储一个元素的集合,简称集合<collection>,<br>一种是为了存储键值对<key-value>简称图(Map)<br>这里讲述java集合框架中的三种主要类型的集合:规则集<set>,线性表<list>,队列<queue></p>
+<p><img src="https://img.mukewang.com/5b076e86000183ef12800659.jpg" alt="å¾çæè¿°">需要注意的是，容器中只能存放对象，而不能存放基本类型。所以当你将一个 int 型数据 1放入容器中的时候，其实它会自动装箱转换成 Integer 类后存入的，Java中每一种基本类型都有对应的引用类型。在容器存放的是多个对象的引用，对象本身还是放在堆内存中。容器可以存放不同类型，不限数量的数据类型。</p>
+<p>set:实例用于存储一组不重复的元素<br>set包含三个具体类是:散列类hashset,链式散列类linkedhashset和树形集treeset</p>
+<hr>
+<p>list:实例用于存储一个由元素构成的有序集合,元素可以为空</p>
+<p>list:线性表不仅可以存储重复元素,而且还允许用户指定它们的存储位置,用户可以通过下标来访问元素.<br>包括数组线性表类ArrayList和链表类LinkedList<br>ArrayList用数组存储元素,这个数组是动态建立的,自动扩容,ArrayList中，默认的大小是10，当你使用new ArrayList();时并不会立即为数组分配大小为10的空间，而是等插入第一个元素时才会真正分配，这样做是为了节约内存空间。在扩容时，默认的扩容因子是1.5，每次需要扩容时，会将原数组大小的1.5倍和实际需要的数组空间进行比较，从中取最大值作为数组大小。然后新建一个数组，把原数组中的所有元素复制到新数组中去。所以扩容其实是最耗费时间的操作，不仅仅需要重新分配空间，而且需要重新赋值。将扩容因子选为1.5而不是2，也是为了在满足需求的前提下尽可能的节约空间，但如果事先就知道元素的大概个数时，最好先在构造器中设置好列表的容量，这样就可以省掉不少扩容时的开销。</p>
+<p>因为ArrayList的方法操作的都是同一个内部数组，而所有方法都没有加锁，没有同步机制，所以它是线程不安全的。</p>
+<hr>
+<p>queue:实例由于存储先进先出的方式处理对象</p>
+<hr>
+<p>List特点：元素有放入顺序，元素可重复 ，Set特点：元素无放入顺序，元素不可重,queue,先进先出</p>
+<h2 id="二-Map接口"><a href="#二-Map接口" class="headerlink" title="二,Map接口"></a><strong>二,Map接口</strong></h2><p>map里面的元素都是以键值对(key-value)的形式存在的;</p>
+<p>键值很像list中的下标,只不过在list中下标是数字,<br>而在map中下标可以是任意类型的对象,图中不可以有重复的键值,每个键值对应一个值<br>图的类型有三种,hashmap,linkedhashmap,treemap.</p>
+<p>map有三种遍历方式:</p>
+<p>1.通过遍历KeySet来遍历所有键值对(如果只是需要key,则效率较高,如果还需要同时得到value,则效率很低,因为map.get(key)效率低)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">Set&lt;Integer&gt; keys = map.keySet();</span><br><span class="line">//遍历map中的键,值</span><br><span class="line"></span><br><span class="line">for (Integer key : map.keySet()) &#123; </span><br><span class="line">  System.out.println(&quot;Key = &quot; + key);</span><br><span class="line">  System.out.println(&quot;value = &quot; + map.get(key));</span><br><span class="line"></span><br><span class="line">&#125; </span><br><span class="line">//遍历map中的键 </span><br><span class="line">for (Integer key : map.keySet()) &#123; </span><br><span class="line">  System.out.println(&quot;Key = &quot; + key); </span><br><span class="line">&#125; </span><br><span class="line">//遍历map中的值 </span><br><span class="line">for (Integer value : map.values()) &#123; </span><br><span class="line">  System.out.println(&quot;Value = &quot; + value); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.通过entrySet来实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;(); </span><br><span class="line">for (Map.Entry&lt;Integer, Integer&gt; entry : map.entrySet()) &#123; </span><br><span class="line">  System.out.println(&quot;Key = &quot; + entry.getKey() + &quot;, Value = &quot; + entry.getValue()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="">3.使用EntrySet的Iterator来遍历(删除,修改元素值,使用该方法)</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;(); </span><br><span class="line">Iterator&lt;Map.Entry&lt;Integer, Integer&gt;&gt; entries = map.entrySet().iterator(); </span><br><span class="line">while (entries.hasNext()) &#123; </span><br><span class="line">  Map.Entry&lt;Integer, Integer&gt; entry = entries.next(); </span><br><span class="line">  System.out.println(&quot;Key = &quot; + entry.getKey() + &quot;, Value = &quot; + entry.getValue()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/01/Java1-5/" data-id="cl5y5bqsv0009fhud8zoq3xs2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/03/objectClone/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java基础系列(六)-对象克隆
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/21/Java1-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java基础系列(四) - Java泛型</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigData/" rel="tag">bigData</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/bigData/" style="font-size: 10px;">bigData</a> <a href="/tags/database/" style="font-size: 15px;">database</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/note/" style="font-size: 15px;">note</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/24/dubbo/">Dubbo入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/LoadBalance/">心血来潮讲讲负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/oracleNote2/">Oracle笔记-记一次有意思的sql查询结果集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/java1-7/">Java基础系列(七)-Java正则表达式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/java2-4/">Java进阶系列(五)-Java GC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Kiven<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

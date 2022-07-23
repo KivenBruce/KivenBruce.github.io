@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java基础系列(七)-Java正则表达式 | 黄站祥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="日常开发中,经常涉及到对一些字符串的匹配,判断,使用正则表达式可以很强大的完成各种模式的匹配;所以今天补一篇java正则表达式的博文;正则表达式定义了字符串的模式。正则表达式可以用来搜索、编辑或处理文本。正则表达式并不仅限于某一种语言，但是在每种语言中有细微的差别。 从以下几个方面讲述:1.组成结构2.匹配规则3.案例分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础系列(七)-Java正则表达式">
+<meta property="og:url" content="http://yoursite.com/2018/10/15/java1-7/index.html">
+<meta property="og:site_name" content="黄站祥的博客">
+<meta property="og:description" content="日常开发中,经常涉及到对一些字符串的匹配,判断,使用正则表达式可以很强大的完成各种模式的匹配;所以今天补一篇java正则表达式的博文;正则表达式定义了字符串的模式。正则表达式可以用来搜索、编辑或处理文本。正则表达式并不仅限于某一种语言，但是在每种语言中有细微的差别。 从以下几个方面讲述:1.组成结构2.匹配规则3.案例分析">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-10-15T02:21:55.000Z">
+<meta property="article:modified_time" content="2022-07-23T16:56:37.572Z">
+<meta property="article:author" content="Kiven">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">黄站祥的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java1-7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/15/java1-7/" class="article-date">
+  <time datetime="2018-10-15T02:21:55.000Z" itemprop="datePublished">2018-10-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java基础系列(七)-Java正则表达式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>日常开发中,经常涉及到对一些字符串的匹配,判断,使用正则表达式可以很强大的完成各种模式的匹配;所以今天补一篇java正则表达式的博文;<br>正则表达式定义了字符串的模式。<br>正则表达式可以用来搜索、编辑或处理文本。<br>正则表达式并不仅限于某一种语言，但是在每种语言中有细微的差别。</p>
+<p>从以下几个方面讲述:<strong>1.组成结构2.匹配规则3.案例分析</strong></p>
+<span id="more"></span>
+
+<h2 id="一-组成结构"><a href="#一-组成结构" class="headerlink" title="一,组成结构"></a>一,组成结构</h2><h3 id="1-元字符"><a href="#1-元字符" class="headerlink" title="1.元字符"></a>1.元字符</h3><p> **”^”**：^会匹配行或者字符串的起始位置，有时还会匹配整个文档的起始位置<br>   “$” ：$会匹配行或字符串的结尾<br>   eg:^This is Regex$<br>   被匹配的字符必须是以This开头有空格也不行，必须以Regex结尾，也不能有空格与其它字符</p>
+<p><strong>“\b”</strong>:不会消耗任何字符只匹配一个位置，常用于匹配单词边界 如 我想从字符串中”This is Regex”匹配单独的单词 “is” 正则就要写成 “\bis\b”<br>注:\b 不会匹配is 两边的字符，但它会识别is 两边是否为单词的边界</p>
+<p><strong>“\d”</strong>: 匹配数字， 例如要匹配一个固定格式的电话号码以0开头前4位后7位，<br>如0737-5686123  正则:^0\d\d\d-\d\d\d\d\d\d\d$ 这里只是为了介绍”\d”字符，实际有更好的写法会在下面介绍。</p>
+<p>**”\w”**：匹配字母，数字，下划线.<br> 例如我要匹配”a2345BCD__TTz” 正则：”\w+”  这里的”+”字符为一个量词指重复的次数，稍后会详细介绍。</p>
+<p>**”\s”**：匹配空格;<br>例如字符 “a b c” 正则：”\w\s\w\s\w”  一个字符后跟一个空格，如有字符间有多个空格直接把”\s” 写成 “\s+” 让空格重复</p>
+<p>**”.”**：匹配除了换行符以外的任何字符<br> 这个算是”\w”的加强版了”\w”不能匹配 空格 如果把字符串加上空格用”\w”就受限了，看下用 “.”是如何匹配字符”a23 4 5 B C D__TTz”  正则：”.+”</p>
+<p><strong>“[abc]”</strong>: 字符组  匹配包含括号内元素的字符<br>这个比较简单了只匹配括号内存在的字符，还可以写成[a-z]匹配a至z的所以字母就等于可以用来控制只能输入英文了</p>
+<h3 id="2-几种反义"><a href="#2-几种反义" class="headerlink" title="2.几种反义"></a>2.几种反义</h3><p>写法很简单改成大写就行了，意思与原来的相反，这里就不举例子了</p>
+<p><strong>“\W”</strong>  匹配任意不是字母，数字，下划线 的字符</p>
+<p><strong>“\S”</strong>  匹配任意不是空白符的字符</p>
+<p> <strong>“\D”</strong> 匹配任意非数字的字符</p>
+<p>**”\B” **匹配不是单词开头或结束的位置</p>
+<p>** “[^abc] “**匹配除了abc以外的任意字符</p>
+<h3 id="3-量词"><a href="#3-量词" class="headerlink" title="3.量词"></a>3.量词</h3><p>上面说的元字符,都是按照逐个匹配的原子从头往后匹配,比如aaaaa字符串,\w匹配,会匹配出五个结果;而量词就是控制匹配原则的;<br>** “<em>“(贪婪)</em>*  重复零次或更多<br> 例如”aaaaaaaa” 匹配字符串中所有的a  正则： “a*”   会出到所有的字符”a”</p>
+<p><strong>“+”(懒惰)</strong>  重复一次或更多次<br>例如”aaaaaaaa” 匹配字符串中所有的a  正则： “a+”  会取到字符中所有的a字符<br>注意:”a+”与”a*”不同在于”+”至少是一次而”*” 可以是0次</p>
+<p><strong>“?”(占有)</strong>  重复零次或一次<br>例如”aaaaaaaa” 匹配字符串中的a 正则 ： “a?” 只会匹配一次，也就是结果只是单个字符a</p>
+<p><strong>“{n}”</strong> 重复n次<br>例如从”aaaaaaaa” 匹配字符串的a 并重复3次 正则：  “a{3}”  结果就是取到3个a字符  “aaa”;</p>
+<p><strong>“{n,m}”</strong> 重复n到m次<br>例如正则 “a{3,4}” 将a重复匹配3次或者4次 所以供匹配的字符可以是三个”aaa”也可以是四个”aaaa” 正则都可以匹配到</p>
+<p><strong>“{n,}”</strong> 重复n次或更多次<br>与{n,m}不同之处就在于匹配的次数将没有上限，但至少要重复n次 如 正则”a{3,}” a至少要重复3次</p>
+<p>把量词了解了之后之前匹配电话号码的正则现在就可以改得简单点了<br>^0\d\d\d-\d\d\d\d\d\d\d$ 可以改为”^0\d+-\d{7}$”。<br>这样写还不够完美如果因为前面的区号没有做限定，以至于可以输入很多们，而通常只能是3位或者4位<br>现在再改一下 “^0\d{2,3}-\d{7}”如此一来区号部分就可以匹配3位或者4位的了</p>
+<h3 id="4-懒惰限定符"><a href="#4-懒惰限定符" class="headerlink" title="4.懒惰限定符"></a>4.懒惰限定符</h3><p><strong>“*?”</strong>  重复任意次，但尽可能少重复<br>如 “acbacb”  ,我想要匹配第一个acb,如果使用正则 “a.<em>b</em>“会匹配出什么结果呢?他会匹配出acbacb,因为<em>是贪心的,即,他会尽可能的匹配多的结果,所以</em>会把cbac这几个全部匹配;使用正则  “a.*?b” 会取到”acb” ,”acb”两个匹配,原本可以全部取到但加了限定符后，只会匹配尽可能少的字符 ，而”acbacb”最少字符的结果就是”acb”,从acbacb的a开始,往后匹配,ab之间任意个字符所以第一次匹配到acb,因为要尽可能少的匹配,所以到这就结束了,返回acb,然后接着后面找,同理又找到acb,所以返回两个acb;再比如.匹配aaababbab的结果是:aaab,ab,ab三个,如果只想要第一个结果,可以在程序中处理:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">content</span> <span class="operator">=</span> <span class="string">&quot;aaababbab&quot;</span>;</span><br><span class="line"><span class="type">Pattern</span> <span class="variable">pattern</span> <span class="operator">=</span> Pattern.compile(<span class="string">&quot;a.*?b&quot;</span>);</span><br><span class="line"><span class="type">Matcher</span> <span class="variable">matcher</span> <span class="operator">=</span> pattern.matcher(content);</span><br><span class="line"><span class="comment">//输出所有匹配结果</span></span><br><span class="line"><span class="keyword">while</span>(matcher.find()) &#123;</span><br><span class="line">    System.out.println(matcher.group());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出第一个匹配结果</span></span><br><span class="line"><span class="keyword">if</span>(matcher.find())&#123;</span><br><span class="line">    System.out.println(matcher.group());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>“+?”</strong> 重复1次或更多次，但尽可能少重复<br>与上面一样，只是至少要重复1次</p>
+<p><strong>“??”</strong> 重复0次或1次，但尽可能少重复<br>如 “aaacb” 正则 “a.??b” 只会取到最后的三个字符”acb”</p>
+<p><strong>“{n,m}?”</strong> 重复n到m次，但尽可能少重复<br>如 “aaaaaaaa”  正则 “a{0,m}” 因为最少是0次所以取到结果为空</p>
+<p>**”{n,}?”  ** 重复n次以上，但尽可能少重复<br>如 “aaaaaaa”  正则 “a{1,}” 最少是1次所以取到结果为 “a”</p>
+<p>后面还有更高级的用法,捕获分组啥的,还没咋看明白,这次就不写了,后面有时间或者遇到需要使用的情况,再研究研究;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/15/java1-7/" data-id="cl5y5bqt4000sfhudhqo20twe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/11/01/oracleNote2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Oracle笔记-记一次有意思的sql查询结果集
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/01/java2-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java进阶系列(五)-Java GC</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigData/" rel="tag">bigData</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/bigData/" style="font-size: 10px;">bigData</a> <a href="/tags/database/" style="font-size: 15px;">database</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/note/" style="font-size: 15px;">note</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/24/dubbo/">Dubbo入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/LoadBalance/">心血来潮讲讲负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/oracleNote2/">Oracle笔记-记一次有意思的sql查询结果集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/java1-7/">Java基础系列(七)-Java正则表达式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/java2-4/">Java进阶系列(五)-Java GC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Kiven<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

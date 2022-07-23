@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java进阶系列(四)-JVM内存模型 | 黄站祥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在java中,内存的管理分为几个部分知道吗?我们日常开发中常常将的堆,栈等在内存中又是扮演者什么样的角色呢?各自的职能是什么呢?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java进阶系列(四)-JVM内存模型">
+<meta property="og:url" content="http://yoursite.com/2018/09/15/java2-3/index.html">
+<meta property="og:site_name" content="黄站祥的博客">
+<meta property="og:description" content="在java中,内存的管理分为几个部分知道吗?我们日常开发中常常将的堆,栈等在内存中又是扮演者什么样的角色呢?各自的职能是什么呢?">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/09/15/java2-3/java2-3%5Cjvm.png">
+<meta property="article:published_time" content="2018-09-15T06:39:51.000Z">
+<meta property="article:modified_time" content="2022-07-23T16:56:37.566Z">
+<meta property="article:author" content="Kiven">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/15/java2-3/java2-3%5Cjvm.png">
+  
+    <link rel="alternate" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">黄站祥的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java2-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/15/java2-3/" class="article-date">
+  <time datetime="2018-09-15T06:39:51.000Z" itemprop="datePublished">2018-09-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java进阶系列(四)-JVM内存模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在java中,内存的管理分为几个部分知道吗?我们日常开发中常常将的堆,栈等在内存中又是扮演者什么样的角色呢?各自的职能是什么呢?</p>
+<span id="more"></span>
+
+<p>java虚拟机将内存分为五大块:Heap(堆),JVM Stacks(虚拟机栈),Native Method Stacks(本地方法栈),Program Counter Register(程序计数器),Method Area(方法区)</p>
+<p>注:方法区和堆是所有线程共享的,栈为线程是有的;</p>
+<h2 id="一-Heap-堆"><a href="#一-Heap-堆" class="headerlink" title="一,Heap(堆)"></a>一,Heap(堆)</h2><p>对于大多数应用来说,堆是java虚拟机管理内存最大的一块区域,存放对象实例,凡是new出来的对象都放在堆中;</p>
+<h2 id="二-stack-栈"><a href="#二-stack-栈" class="headerlink" title="二,stack(栈)"></a>二,stack(栈)</h2><p>存放基本数据类型,常量,局部变量,对象的引用地址,描述的是程序执行动作,比如每个方法被执行的时候都会常见一个栈帧用于存储局部变量表,操作栈,动态链接,方法出口等信息;每一个方法被调用的过程就对应一个栈帧在虚拟机中从入栈到出栈的过程;</p>
+<p>本地方法栈,和虚拟机栈的作用相似,区别是,虚拟机栈执行的是Java方法,也就是字节码,而本地方法栈则为虚拟机使用到的native方法服务,可以底层调用c或者c++;</p>
+<h2 id="三-程序计数器"><a href="#三-程序计数器" class="headerlink" title="三,程序计数器"></a>三,程序计数器</h2><p>程序计数器是一块很小的内存空间,他是线程私有的,可以认作为当前线程的行号指示器;</p>
+<h2 id="四-方法区"><a href="#四-方法区" class="headerlink" title="四,方法区"></a>四,方法区</h2><p>方法区和堆一样是所有线程共享的内存区域,用于存储被虚拟机加载的类信息,静态变量和字符串常量;</p>
+<p><strong>注:方法区中有一部分区域称为:常量池,存放class文件的字段,接口,方法等描述信息等</strong></p>
+<p><strong>在jdk7之前,方法区也被称为永久代,因此没有强制要求方法区必须实现垃圾回收,不过自动jdk7开始,Hotspot虚拟机便将运行时常量池从永久代移除了;</strong></p>
+<p>一个程序的执行,先要从程序存放地加载到内存区,然后找到内存区中的main方法执行,在这个执行过程中,内存就会对其进行管理.</p>
+<p><img src="java2-3%5Cjvm.png" alt="java2-3\jvm"></p>
+<p>堆和栈的比较:</p>
+<p>堆的特点是,受GC控制,自动回收不使用的数据,动态分配内存大小,但是存取的速度慢</p>
+<p>栈的特点是,存取速度快,数据为线程独享</p>
+<p>常用的设置堆内存的参数配置:</p>
+<ul>
+<li>-Xms设置堆的最小空间大小。</li>
+<li>-Xmx设置堆的最大空间大小。</li>
+</ul>
+<p>一般来说,这两个设置的值为一样的,避免程序运行中堆内存受GC影响频繁的调整;</p>
+<p>下一节,介绍一下GC;敬请期待…</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/15/java2-3/" data-id="cl5y5bqt3000nfhudhuwwguil" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/01/java2-4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java进阶系列(五)-Java GC
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/07/java2-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java进阶系列(三)-多线程编程深入</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigData/" rel="tag">bigData</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/bigData/" style="font-size: 10px;">bigData</a> <a href="/tags/database/" style="font-size: 15px;">database</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/note/" style="font-size: 15px;">note</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/24/dubbo/">Dubbo入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/LoadBalance/">心血来潮讲讲负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/oracleNote2/">Oracle笔记-记一次有意思的sql查询结果集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/java1-7/">Java基础系列(七)-Java正则表达式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/java2-4/">Java进阶系列(五)-Java GC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Kiven<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

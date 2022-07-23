@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java基础系列(二)-Java代理 | 黄站祥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一,Java代理-静态代理 什么是代理?举个例子,最形象的代表便是经纪人，明星一般都有经纪人，经纪人作为中间人，负责代理明星的相关事宜;经纪人就是代理; 1234567891011121314public interface IStarts&amp;#123;void sing();void dance();&amp;#125;public class Start implements IStart&amp;#123;p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础系列(二)-Java代理">
+<meta property="og:url" content="http://yoursite.com/2018/07/19/wonderful/index.html">
+<meta property="og:site_name" content="黄站祥的博客">
+<meta property="og:description" content="一,Java代理-静态代理 什么是代理?举个例子,最形象的代表便是经纪人，明星一般都有经纪人，经纪人作为中间人，负责代理明星的相关事宜;经纪人就是代理; 1234567891011121314public interface IStarts&amp;#123;void sing();void dance();&amp;#125;public class Start implements IStart&amp;#123;p">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-07-19T11:13:24.000Z">
+<meta property="article:modified_time" content="2022-07-23T16:56:37.561Z">
+<meta property="article:author" content="Kiven">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">黄站祥的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-wonderful" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/19/wonderful/" class="article-date">
+  <time datetime="2018-07-19T11:13:24.000Z" itemprop="datePublished">2018-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java基础系列(二)-Java代理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="">一,Java代理-静态代理</a></p>
+<p>什么是代理?举个例子,最形象的代表便是经纪人，明星一般都有经纪人，经纪人作为中间人，负责代理明星的相关事宜;经纪人就是代理;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public interface IStarts&#123;</span><br><span class="line">void sing();</span><br><span class="line">void dance();</span><br><span class="line">&#125;</span><br><span class="line">public class Start implements IStart&#123;</span><br><span class="line">piblic Start(String name)&#123;</span><br><span class="line">&#125;</span><br><span class="line">public void sing()&#123;</span><br><span class="line">System.out.println(name+&quot;唱了一首歌!&quot;)</span><br><span class="line">&#125;</span><br><span class="line">public void dance()&#123;</span><br><span class="line">System.out.println(name+&quot;跳了一支舞!&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>现在创建一个代理类:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class StartProxy implements IStart&#123;</span><br><span class="line">private Start start;</span><br><span class="line">public StartProxy(Start start)&#123;</span><br><span class="line">this.start = start;</span><br><span class="line">&#125;</span><br><span class="line">public void sing()&#123;</span><br><span class="line">System.out.println(&#x27;我是代理,我收到唱歌请求&#x27;);</span><br><span class="line">starts.sing();</span><br><span class="line">System.out.println(&quot;唱歌完毕&quot;);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的测试,可以看出,实际上代理类只是保存了Start类饿一个实例,实现的是相同的接口,StartProxy类必须实现dance和sing方法,你可以这么理解:代理接的活和实际做的是一致的,只是交给了具体的Start来实现;</p>
+<p><code>那么,为什么要使用代理呢?</code></p>
+<p>其实,主要目的是为了扩展原有类的功能,代理类实现了相同的接口,做的事情是一样的,只不过可以控制Start在何种条件下去执行,比如需要统计唱歌和跳舞的次数,次数大于3则不进行该操作,直接返回.这时候,使用代理就很好地实现,把代理类做如下修改:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StartProxy</span> <span class="keyword">implements</span> <span class="title class_">IStart</span>&#123;</span><br><span class="line"><span class="keyword">private</span> Star start;</span><br><span class="line"><span class="keyword">private</span> <span class="type">int</span> num;<span class="comment">//保存次数</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sing</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="keyword">if</span>(!ifWork()) <span class="keyword">return</span>;</span><br><span class="line"><span class="keyword">else</span> ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">ifWork</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="keyword">if</span>(num&gt;<span class="number">3</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">num++;<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然,这里仅仅是一种代理饿思想,用这种代理思想可以比较方便的在不修改原有类的前提下对原有类进行扩展;</p>
+<p>但是,限制也是显而易见的:</p>
+<p>1.代理类需要与被代理类实现相同的接口</p>
+<p>2.当被代理的类需要进行的扩展增多时,管理会变得更加困难,之后对被代理类的修改,同时需要修改代理类</p>
+<p><a href="">二,JDK动态代理</a></p>
+<p>动态代理,指的是运行时创建代理对象,动态代理具有更强大的拦截请求功能,因为可以获取类的运行时信息,所以可以根据运行时信息来获取更加灵活的执行</p>
+<p>还是以明星和经纪人作为例子;</p>
+<p>修改代理类;创建JDK动态代理需要先实现InvocationHandler接口,并且重写其中的invoke方法,具体步骤如下:</p>
+<p>1.创建一个类实现InvocationHandler接口</p>
+<p>2.给Proxy类提供委托类的ClassLoader和Interfaces来创建动态代理类</p>
+<p>3.利用反射机制得到动态代理类的构造函数</p>
+<p>4.利用动态代理类的构造函数创建动态代理类对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StartNewProxy</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span>&#123;</span><br><span class="line"><span class="keyword">private</span> Object object;<span class="comment">//代理类持有委托类的对象引用</span></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">StartNewProxy</span><span class="params">(Object object)</span>&#123;</span><br><span class="line"><span class="built_in">this</span>.object = object;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy,Method method,Object[]args)</span>&#123;</span><br><span class="line"><span class="comment">//利用反射机制将请求分派给委托类处理,Method的invoke返回Object对象作为方法执行结果</span></span><br><span class="line"><span class="comment">//**这前后可以做一些条件控制**</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(object,args);</span><br><span class="line"><span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新建一个工厂类来返回代理实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StarsNewProxyFactory</span> &#123;</span><br><span class="line">    <span class="comment">//构建工厂类，客户类调用此方法获得代理对象</span></span><br><span class="line">    <span class="comment">//对于客户类而言，代理类对象和委托类对象是一样的，不需要知道具体返回的类型</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> IStars <span class="title function_">getInstance</span><span class="params">(String name)</span>&#123;</span><br><span class="line">        <span class="type">IStars</span> <span class="variable">stars</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Stars</span>(name);</span><br><span class="line">        <span class="type">InvocationHandler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StarsNewProxy</span>(stars);</span><br><span class="line">        <span class="type">IStars</span> <span class="variable">proxy</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="comment">//相当于,拦截了代理类中的所有方法</span></span><br><span class="line">        proxy = (IStars) Proxy.newProxyInstance(</span><br><span class="line">                stars.getClass().getClassLoader(),</span><br><span class="line">                stars.getClass().getInterfaces(),</span><br><span class="line">                handler</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span> proxy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span>  <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span>&#123;  </span><br><span class="line">  <span class="type">IStars</span> <span class="variable">proxy</span> <span class="operator">=</span>  StarsNewProxyFactory.getInstance(<span class="string">&quot;Frank&quot;</span>); </span><br><span class="line">  proxy.dance(); proxy.sing();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>动态代理跟静态代理最大的不同便是生成代理类的时期不同，静态代理是在编译期，而动态代理则是在运行时根据委托类信息动态生成。</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/19/wonderful/" data-id="cl5y5bqsq0004fhud92owdpwe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/20/Java1-3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java基础系列(三)-Java反射
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/18/testblog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java基础系列(一)-运算符</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigData/" rel="tag">bigData</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/bigData/" style="font-size: 10px;">bigData</a> <a href="/tags/database/" style="font-size: 15px;">database</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/note/" style="font-size: 15px;">note</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/24/dubbo/">Dubbo入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/LoadBalance/">心血来潮讲讲负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/oracleNote2/">Oracle笔记-记一次有意思的sql查询结果集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/java1-7/">Java基础系列(七)-Java正则表达式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/java2-4/">Java进阶系列(五)-Java GC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Kiven<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

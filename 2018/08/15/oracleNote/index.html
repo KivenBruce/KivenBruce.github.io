@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Oracle笔记-常用函数介绍 | 黄站祥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="闲暇之余,写点Oracle的笔记;分为基础和进阶两部分,基础部分写点日常常见的函数使用,进阶部分写点与业务有关的以及排查问题的方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle笔记-常用函数介绍">
+<meta property="og:url" content="http://yoursite.com/2018/08/15/oracleNote/index.html">
+<meta property="og:site_name" content="黄站祥的博客">
+<meta property="og:description" content="闲暇之余,写点Oracle的笔记;分为基础和进阶两部分,基础部分写点日常常见的函数使用,进阶部分写点与业务有关的以及排查问题的方式">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/08/15/oracleNote/oracleNote/relationship.png">
+<meta property="article:published_time" content="2018-08-15T09:26:05.000Z">
+<meta property="article:modified_time" content="2022-07-23T16:56:37.563Z">
+<meta property="article:author" content="Kiven">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="database">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/15/oracleNote/oracleNote/relationship.png">
+  
+    <link rel="alternate" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">黄站祥的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-oracleNote" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/15/oracleNote/" class="article-date">
+  <time datetime="2018-08-15T09:26:05.000Z" itemprop="datePublished">2018-08-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Oracle笔记-常用函数介绍
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>闲暇之余,写点Oracle的笔记;分为基础和进阶两部分,基础部分写点日常常见的函数使用,进阶部分写点与业务有关的以及排查问题的方式</p>
+<span id="more"></span>
+
+<h2 id="一-Oracle基础知识"><a href="#一-Oracle基础知识" class="headerlink" title="一,Oracle基础知识"></a>一,Oracle基础知识</h2><p>1.Oracle trunc函数，获取日期以及截取精度使用；</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> trunc(sysdate,<span class="string">&#x27;yy&#x27;</span>) <span class="keyword">from</span> dual ；当前年的第一天<span class="operator">=</span><span class="number">2017</span><span class="operator">/</span><span class="number">1</span><span class="operator">/</span><span class="number">1</span></span><br><span class="line"><span class="keyword">select</span> trunc(sysdate,<span class="string">&#x27;mm&#x27;</span>) <span class="keyword">from</span> dual ；当前月的第一天<span class="operator">=</span><span class="number">2017</span><span class="operator">/</span><span class="number">12</span><span class="operator">/</span><span class="number">1</span></span><br><span class="line"><span class="comment">--dd,hh,mi...day，hour，miao</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="number">123.458</span>,<span class="number">1</span>) <span class="keyword">from</span> dual <span class="comment">--123.4；不进行四舍五入，只保留几位；</span></span><br><span class="line"><span class="keyword">select</span> trunc(<span class="number">123.458</span>,<span class="number">-1</span>) <span class="keyword">from</span> dual <span class="comment">--120</span></span><br></pre></td></tr></table></figure>
+
+<p>2.NVL函数的格式如下：NVL(expr1,expr2),判空表达式</p>
+<p>如果oracle第一个参数为空那么显示第二个参数的值，如果第一个参数的值不为空，则显示第一个参数本来的值。</p>
+<p>3.ROUND() 函数用于把数值字段<strong>四舍五入</strong>为指定的小数位数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> round(<span class="number">12.345</span>,<span class="number">2</span>) <span class="keyword">from</span> dual;<span class="number">12.35</span></span><br><span class="line"><span class="keyword">select</span> round(<span class="number">12.344</span>,<span class="number">2</span>) <span class="keyword">from</span> dual;<span class="number">12.34</span></span><br><span class="line"><span class="keyword">select</span> round(<span class="number">12.3</span>,<span class="number">2</span>) <span class="keyword">from</span> dual;<span class="number">12.3</span></span><br></pre></td></tr></table></figure>
+
+<p>4.保留精度,有时候就想让查询保留若干为小数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="string">&#x27;12.345&#x27;</span>,<span class="string">&#x27;00.00&#x27;</span>) <span class="keyword">from</span> dual;<span class="number">12.34</span></span><br><span class="line"><span class="keyword">select</span> to_char(<span class="string">&#x27;12.3&#x27;</span>,<span class="string">&#x27;00.00&#x27;</span>) <span class="keyword">from</span> dual;<span class="number">12.30</span></span><br></pre></td></tr></table></figure>
+
+<p>5.rank函数,通常用于按照某个特定的条件来排序,特定条件相同的,rank值相同;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">rank</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> field) <span class="keyword">as</span> rank <span class="keyword">from</span> <span class="keyword">table</span>;</span><br></pre></td></tr></table></figure>
+
+<p>结果类似于</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>rank</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a</td>
+<td>1</td>
+</tr>
+<tr>
+<td>a</td>
+<td>1</td>
+</tr>
+<tr>
+<td>b</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>6.dense_rank函数,与rank函数相似,只不过rank值他是连续的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> field) <span class="keyword">as</span> rank <span class="keyword">from</span> <span class="keyword">table</span>;</span><br></pre></td></tr></table></figure>
+
+<p>结果类似于</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>rank</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a</td>
+<td>1</td>
+</tr>
+<tr>
+<td>a</td>
+<td>1</td>
+</tr>
+<tr>
+<td>b</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<h2 id="二-Oracle进阶知识"><a href="#二-Oracle进阶知识" class="headerlink" title="二,Oracle进阶知识"></a>二,Oracle进阶知识</h2><p>1.Oracle递归查询,数据之间有父子依赖关系,比如字段中有id,parentId字段,现在想看id=1的所有子节点;</p>
+<p>SELECT … FROM    + 表名  START WITH +条件1CONNECT BY PRIOR +条件2WHERE  +条件3</p>
+<p>条件1：是根节点的限定语句，当然可以放宽限定条件，以取得多个根节点，也就是多棵树；</p>
+<p>条件2：是连接条件，其中用PRIOR表示上一条记录，例如CONNECT BY PRIOR id= pid,连接条件为,id是别人的父id的值</p>
+<p>条件3：是过滤条件，用于对返回的记录进行过滤。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.<span class="operator">*</span>,level <span class="keyword">from</span> treeList t <span class="keyword">start</span> <span class="keyword">with</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">connect</span> <span class="keyword">by</span> prior id <span class="operator">=</span> pid;<span class="operator">/</span><span class="operator">/</span>查找id为<span class="number">1</span>,并且id是别人的pid(父id)的子节点,即查看id为<span class="number">1</span>的所有子节点元素,以及他们所在层级</span><br><span class="line"><span class="keyword">select</span> t.<span class="operator">*</span>,level <span class="keyword">from</span> treeList t <span class="keyword">start</span> <span class="keyword">with</span> id<span class="operator">=</span><span class="number">8</span> <span class="keyword">connect</span> <span class="keyword">by</span> prior pid <span class="operator">=</span> id;<span class="operator">/</span><span class="operator">/</span>查找id为<span class="number">8</span>,并且pid(父id)是别人id的节点,即查看id为<span class="number">8</span>的所有父级元素,以及他们所在层级</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> treeList t <span class="keyword">where</span> <span class="keyword">not</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> treeList l <span class="keyword">where</span> l.pid <span class="operator">=</span> t.id);<span class="operator">/</span><span class="operator">/</span>从里面开始看,l.pid <span class="operator">=</span> t.id;t是外层的,从t开始解读,id是别人的pid,即子节点,<span class="keyword">not</span> <span class="keyword">exists</span>,所以这个<span class="keyword">sql</span>查询的是不存在子节点的元素</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> treeList t <span class="keyword">where</span> <span class="keyword">not</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> treeList l <span class="keyword">where</span> l.id <span class="operator">=</span> t.pid);<span class="operator">/</span><span class="operator">/</span>l.id<span class="operator">=</span>t.pid,父id是别人的id,即查父节点,<span class="keyword">not</span> <span class="keyword">exists</span>,所以这个<span class="keyword">sql</span>查的是不存在父节点的元素</span><br></pre></td></tr></table></figure>
+
+<p>2.查看列名在哪些表中存在,区分大小写;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> table_name <span class="keyword">from</span> user_tab_columns <span class="keyword">where</span> column_name<span class="operator">=</span>&quot;###&quot;</span><br></pre></td></tr></table></figure>
+
+<p>3.查询Oracle正在执行的sql语句及执行该语句的用户;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>  b.sid oracleID, b.username 登录用户名,  </span><br><span class="line"></span><br><span class="line">        b.machine 计算机名, c.sql_text 正在执行的<span class="keyword">SQL</span>,  </span><br><span class="line"><span class="keyword">from</span> v$process a, v$session b, v$sqlarea c</span><br><span class="line"><span class="keyword">where</span> a.addr <span class="operator">=</span> b.paddr <span class="keyword">and</span> b.sql_hash_value <span class="operator">=</span> c.hash_value</span><br></pre></td></tr></table></figure>
+
+<p>4.查看正在执行sql的发起者的执行程序;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>  OSUSER 登录身份, PROGRAM 发起请求的程序,  </span><br><span class="line"></span><br><span class="line">        USERNAME 登录Oracle用户名, B.Cpu_Time 花费cpu的时间,  </span><br><span class="line">        STATUS, B.SQL_TEXT 执行的<span class="keyword">sql</span>  </span><br><span class="line"><span class="keyword">from</span> v$session a <span class="keyword">left</span> <span class="keyword">join</span> v$sqlarea b</span><br><span class="line"><span class="keyword">on</span> a.sql_address <span class="operator">=</span> b.address</span><br><span class="line"><span class="keyword">and</span> a.sql_hash_value <span class="operator">=</span> b.hash_value</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> b.cpu_time <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure>
+
+<p>5.查出oracle当前的被锁对象;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.session_id sid, c.serial#, a.locked_mode 锁模式,  </span><br><span class="line"></span><br><span class="line">    a.oracle_username 登录用户, a.os_user_name 登录机器用户名,  </span><br><span class="line"></span><br><span class="line">    c.machine 机器名, c.terminal 终端用户名,  </span><br><span class="line"></span><br><span class="line">    b.object_name 被锁对象名, c.logon_time 登录数据库时间</span><br><span class="line"><span class="keyword">from</span> v$locked_object a,all_objects b, v$session c</span><br><span class="line"><span class="keyword">where</span> a.object_id <span class="operator">=</span> b.object_id <span class="keyword">and</span> a.session_id <span class="operator">=</span> c.sid</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> sid,c.serial#</span><br></pre></td></tr></table></figure>
+
+<p>6.kill掉当前的锁对象:  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> kill session <span class="string">&#x27;sid,s.serial#&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="oracleNote/relationship.png" alt="视图关系"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/15/oracleNote/" data-id="cl5y5bqsz000gfhud2zcygj2i" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/01/java2-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java进阶系列(二)-多线程编程初探
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/05/Java1-6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java进阶系列(一)HashMap</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigData/" rel="tag">bigData</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/bigData/" style="font-size: 10px;">bigData</a> <a href="/tags/database/" style="font-size: 15px;">database</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/note/" style="font-size: 15px;">note</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/24/dubbo/">Dubbo入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/LoadBalance/">心血来潮讲讲负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/oracleNote2/">Oracle笔记-记一次有意思的sql查询结果集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/java1-7/">Java基础系列(七)-Java正则表达式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/java2-4/">Java进阶系列(五)-Java GC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Kiven<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

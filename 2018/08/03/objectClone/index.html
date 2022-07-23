@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java基础系列(六)-对象克隆 | 黄站祥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在Java中对象的克隆有深克隆和浅克隆之分。有这种区分的原因是Java中分为基本数据类型和引用数据类型，对于不同的数据类型在内存中的存储的区域是不同的。基本数据类型存储在栈中，引用数据类型存储在堆中。java有8中基本数据类型:byte,short,int,long,float,double,char,boolean">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础系列(六)-对象克隆">
+<meta property="og:url" content="http://yoursite.com/2018/08/03/objectClone/index.html">
+<meta property="og:site_name" content="黄站祥的博客">
+<meta property="og:description" content="在Java中对象的克隆有深克隆和浅克隆之分。有这种区分的原因是Java中分为基本数据类型和引用数据类型，对于不同的数据类型在内存中的存储的区域是不同的。基本数据类型存储在栈中，引用数据类型存储在堆中。java有8中基本数据类型:byte,short,int,long,float,double,char,boolean">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-08-03T07:27:58.000Z">
+<meta property="article:modified_time" content="2022-07-23T16:56:37.562Z">
+<meta property="article:author" content="Kiven">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="黄站祥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">黄站祥的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-objectClone" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/03/objectClone/" class="article-date">
+  <time datetime="2018-08-03T07:27:58.000Z" itemprop="datePublished">2018-08-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java基础系列(六)-对象克隆
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Java中对象的克隆有深克隆和浅克隆之分。有这种区分的原因是Java中分为基本数据类型和引用数据类型，对于不同的数据类型在内存中的存储的区域是不同的。基本数据类型存储在栈中，引用数据类型存储在堆中。<br>java有8中基本数据类型:byte,short,int,long,float,double,char,boolean</p>
+<span id="more"></span>
+
+<p>由浅入深,先看个克隆对象的例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Apple</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String color;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> weight;</span><br><span class="line">    <span class="comment">//constructArgs....</span></span><br><span class="line">    <span class="comment">//get set...</span></span><br><span class="line">&#125;</span><br><span class="line">main()&#123;</span><br><span class="line">    <span class="type">Apple</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Apple</span>(<span class="string">&quot;red&quot;</span>,<span class="string">&quot;10.00&quot;</span>);</span><br><span class="line">    <span class="type">Apple</span> <span class="variable">b</span> <span class="operator">=</span> a;</span><br><span class="line">    sout(a.getWeight());</span><br><span class="line">    sout(b.getWeight());</span><br><span class="line">    <span class="comment">//change apple b property</span></span><br><span class="line">    b.setWeight(<span class="number">20.00</span>);</span><br><span class="line">    sout(b.getWeight());</span><br><span class="line">    sout(a.getWeight());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出如何呢?我们会发现当改变苹果b的重量属性时,苹果a的重量属性也被修改了;<br>这与基本数据类型的赋值有差异,即,<strong>传值</strong>与<strong>传址</strong>的区别;基本数据类型传的是变量的值,所以两个变量就是两个值,修改其中一个变量不会影响到另外一个变量的值;而非基本数据类型传递的是对象在堆中的地址,两个对象指向的是同一个地址,所以b对象改变了地址中对象的属性值,那么a获取属性值当然也会变了.<br>以上的简单粗暴直接等号赋值的方式,明显是有坑;如何让他们互不影响呢,接下来介绍”浅克隆”;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Apple</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span>&#123;</span><br><span class="line">    ......</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> Object <span class="title function_">clone</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="type">Apple</span> <span class="variable">g</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		g = (Apple)<span class="built_in">super</span>.clone();</span><br><span class="line">	&#125;<span class="keyword">catch</span> (CloneNotSupportedException e)&#123;</span><br><span class="line">		System.out.println(e.toString());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> g;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过实现Cloneable接口,重写他的clone方法实现”对象分离”;</p>
+<p>通常遇到这种Apple只是属于”简单对象”,没有引用其他的对象,我们一般现在使用:Apple b= (Apple)a.clone();即可实现分离的效果,但是如果有引用其他的对象,还需要做进一步的改造;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Customer</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line">    <span class="keyword">private</span> Apple apple;</span><br><span class="line">    <span class="comment">//constructArgs</span></span><br><span class="line">    <span class="comment">//set and get</span></span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> Customer <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;  </span><br><span class="line">        <span class="keyword">return</span> (Customer) <span class="built_in">super</span>.clone();  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">main()&#123;</span><br><span class="line">    <span class="type">Apple</span> <span class="variable">apple</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Apple</span>(<span class="string">&quot;RED&quot;</span> , <span class="number">10.00</span>);  </span><br><span class="line">    <span class="type">Customer</span> <span class="variable">customer1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Customer</span>(<span class="string">&quot;name1&quot;</span>, <span class="string">&quot;address1&quot;</span> , apple);  </span><br><span class="line">    <span class="type">Customer</span> <span class="variable">customer2</span> <span class="operator">=</span> customer1.clone();  </span><br><span class="line">    customer2.getApple().setColor(<span class="string">&quot;GREEN&quot;</span>);  </span><br><span class="line">    customer2.setName(<span class="string">&quot;name2&quot;</span>);  </span><br><span class="line">    sout(<span class="string">&quot;customer1:&quot;</span>+customer1.toString());  </span><br><span class="line">    sout(<span class="string">&quot;customer2:&quot;</span>+customer2.toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据输出情况,发现当我们更改customer的name属性时,customer1与customer2互不影响;但是,更改Apple的color属性,customer1与customer2同时更改了;因为我们再对customer对象做clone操作的时候,只是针对了customer对象,并没有对Apple对象进行处理,所以customer1与customer2对象的apple属性仍然是指向了同一个地址;</p>
+<p>通过如下方式,进一步的克隆对象:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span>  </span><br><span class="line"><span class="keyword">public</span> Customer <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;  </span><br><span class="line">    <span class="type">Customer</span> <span class="variable">customer</span> <span class="operator">=</span> (Customer) <span class="built_in">super</span>.clone();  </span><br><span class="line">    customer.apple = apple.clone();  </span><br><span class="line">    <span class="keyword">return</span> customer;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h1><p>1.浅克隆：只复制基本类型的数据，引用类型的数据只复制了引用的地址，引用的对象并没有复制，在新的对象中修改引用类型的数据会影响原对象中的引用。<br>2.深克隆：是在引用类型的类中也实现了clone，是clone的嵌套，复制后的对象与原对象之间完全不会影响。<br>3.使用clone实现的深克隆其实是浅克隆中嵌套了浅克隆，与toString方法类似</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/03/objectClone/" data-id="cl5y5bqsy000efhudgfw3gm3k" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/05/Java1-6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java进阶系列(一)HashMap
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/01/Java1-5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java基础系列(五) - Java容器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigData/" rel="tag">bigData</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/bigData/" style="font-size: 10px;">bigData</a> <a href="/tags/database/" style="font-size: 15px;">database</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/note/" style="font-size: 15px;">note</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/24/dubbo/">Dubbo入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/LoadBalance/">心血来潮讲讲负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/oracleNote2/">Oracle笔记-记一次有意思的sql查询结果集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/java1-7/">Java基础系列(七)-Java正则表达式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/java2-4/">Java进阶系列(五)-Java GC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Kiven<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
